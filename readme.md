@@ -1,4 +1,4 @@
-Moip Technical Challenge
+# Moip Technical Challenge
 
 At Moip we cherish our startup culture and our engineers are active participants in the innovation
 process. On this challenge, we’ll be looking at how you organize your code, your knowledge of
@@ -7,43 +7,43 @@ You’ll need to build a simple application to provide an API for payment to our
 checkout for who don't want to integrate with our API. In other words, you'll recreate a small part
 of the Moip :)
 
-Level 1: The API
+# Level 1: The API
 
 We need to create a new API to process payments for our customers. That been said, we need:
 
 1. An endpoint to create payments
-The API needs to accept two payment methods: Credit Card and Boleto.
-When the payment method is boleto, we only need to return the boleto's number in our
-response.
-When the method is card, we need to return if it was successful or not (please don't worry
-about processing the payment, just mock the answers).
-The API must receive the information of the buyer, customer and payment. The information
-needed is the following:
-
-- Client:
-    - ID
-- Buyer:
-    - Name
-    - Email
-    - CPF
-- Payment:
-    - Amount
-    - Type
-    - Card (when the payment type is credit card)
-- Card:
-    - Card holder name
-    - Card number
-    - Card expiration date
-    - Card CVV (Number behind the card)
+    - The API needs to accept two payment methods: Credit Card and Boleto.
+    - When the payment method is boleto, we only need to return the boleto's number in our
+    response.
+    - When the method is card, we need to return if it was successful or not (please don't worry
+    about processing the payment, just mock the answers).
+    - The API must receive the information of the buyer, customer and payment. The information
+    needed is the following:
+        - Client:
+            - ID
+        - Buyer:
+            - Name
+            - Email
+            - CPF
+        - Payment:
+            - Amount
+            - Type
+            - Card (when the payment type is credit card)
+        - Card:
+            - Card holder name
+            - Card number
+            - Card expiration date
+            - Card CVV (Number behind the card)
 
 2. An endpoint to check the payment status
-The API needs to return all the information about the payment, as well as the status of that
-payment.
+    - The API needs to return all the information about the payment, as well as the status of that
+    payment.
 
 3. Unit Tests
-Unit tests are required
+    - Unit tests are required
 
-Level 2: The Checkout
+
+# Level 2: The Checkout
 
 We need a way to use the API: It could be a simple checkout page (or a simple order completion
 page, you don't need to care about design or layout), some curl 's examples or Postman 's
@@ -58,13 +58,13 @@ In this checkout, we need:
 - To return if the transaction was successful or not.
 - To persist and consume the data effectively for this test.
 
-Level 3: The documentation
+# Level 3: The documentation
 
 Please take a time to write a README file explaining how to:
 - Run your project
 - The architecture and the design adopted to solve the challenges.
 
-Additional informations
+# Additional informations
 This challenge can be done in any language and any database.
 Good luck!
 PS: Using docker is a plus! :D
