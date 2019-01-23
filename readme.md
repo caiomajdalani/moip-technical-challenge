@@ -20,17 +20,17 @@ about processing the payment, just mock the answers).
 The API must receive the information of the buyer, customer and payment. The information
 needed is the following:
 
-Client:
+- Client:
     - ID
-Buyer:
+- Buyer:
     - Name
     - Email
     - CPF
-Payment:
+- Payment:
     - Amount
     - Type
     - Card (when the payment type is credit card)
-Card:
+- Card:
     - Card holder name
     - Card number
     - Card expiration date
