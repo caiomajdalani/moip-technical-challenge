@@ -108,7 +108,7 @@ const _upWithoutSSL = ({ ENVIRONMENT, API, PORT }) => async (dependencies) => {
             process.exit(0)
         })
 
-        clearInterval(metricsInterval)
+        // clearInterval(metricsInterval)
 
         _server.close((err) => {
             if (err) {

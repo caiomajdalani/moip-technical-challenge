@@ -35,7 +35,7 @@
                     }
                 },
                 "MONGODB": {
-                    "URI": "mongodb://caiomajdalani:D!!h2509@ds131763.mlab.com:31763/moip_technical_challenge",
+                    "URI": "mongodb://caiomajdalani:abc123@ds211275.mlab.com:11275/moip_technical_challenge",
                     "INDEX": true,
                     "RECONNECT": true,
                     "SSL": false,

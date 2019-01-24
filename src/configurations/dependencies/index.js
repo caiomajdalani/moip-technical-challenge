@@ -28,7 +28,7 @@ module.exports = {
     schemas: require('../../models/index'),
     middlewares: require('../../middlewares/index'),
     databases: require('../databases/index'),
-    services: require('../../service/index'),
+    services: require('../../services/index'),
     routes: require('../../routes/index'),
     controllers: require('../../controllers/index')
 

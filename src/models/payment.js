@@ -8,41 +8,43 @@ module.exports = ({ mongoose }) => {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'buyer'
         },
-        amount: {
-            type: Number,
-            required: true
-        },
-        type: {
-            type: String,
-            default: 'money',
-            enum: [
-                'money',
-                'credit',
-                'debit',
-                'others'
-            ]
-        },
-        card: {
-            brand: {
-                type: String,
+        payment: {
+            amount: {
+                type: Number,
                 required: true
             },
-            owner: {
+            type: {
                 type: String,
-                required: true
+                default: 'money',
+                enum: [
+                    'money',
+                    'credit',
+                    'debit',
+                    'others'
+                ]
             },
-            number: {
-                type: String,
-                required: true
+            card: {
+                brand: {
+                    type: String,
+                    required: true
+                },
+                owner: {
+                    type: String,
+                    required: true
+                },
+                number: {
+                    type: String,
+                    required: true
+                },
+                expiration: {
+                    type: String,
+                    required: true
+                },
+                bin: {
+                    type: String,
+                    required: true
+                }
             },
-            expiration: {
-                type: String,
-                required: true
-            },
-            bin: {
-                type: String,
-                required: true
-            }
         },
         date: {
             type: Number,

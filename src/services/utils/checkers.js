@@ -63,5 +63,9 @@ module.exports = {
         const minimum = moment()
         const date = moment(value, undefined, true)
         return (date.isValid() && date.isAfter(minimum))
+    },
+    isValidDate: ({ moment }) => value => {
+        const date = moment(value, undefined, true)
+        return date.isValid()
     }
 }
