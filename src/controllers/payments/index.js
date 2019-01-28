@@ -19,13 +19,13 @@ const _mapPayment = (services, schemas, moment) => (body, buyer) => {
         payment: {
             amount: body.payment.amount,
             type: body.payment.type,
-            card: {
+            card: body.payment.type === "credit" ? {
                 brand: body.payment.card.brand,
                 owner: body.payment.card.owner,
                 number: body.payment.card.number,
                 expiration: body.payment.card.expiration,
                 bin: body.payment.card.bin
-            }
+            } : null
         }
     }
 }
@@ -49,17 +49,31 @@ module.exports = {
     /**
      * @typedef payment
      * @property {integer} amount.required - Amount paid on cents (Ex.: R$22,50 = 2250)
-     * @property {string} type.required - Payment type ('money', 'debit', 'credit' or 'others')
-     * @property {card.model} card - Payment card informations 
+     * @property {string} type.required - Payment type ('credit' or 'boleto')
+     * @property {card.model} card - Payment card informations (Required when "type" is credit)
      */
 
     /**
      * @typedef card
-     * @property {string} brand - Card brand
-     * @property {string} owner - Name of the card owner
-     * @property {string} number - Card number
-     * @property {string} expiration - Card expiration date (Ex.: 12/2028)
-     * @property {string} bin - Card bin
+     * @property {string} brand.required - Card brand
+     * @property {string} owner.required - Name of the card owner
+     * @property {string} number.required - Card number
+     * @property {string} expiration.required - Card expiration date (Ex.: 12/2028)
+     * @property {string} bin.required - Card bin
+     */
+
+    /**
+     * @typedef responsePayment
+     * @property {string} id.required - Payment`s Id (MongoDB objectId)
+     * @property {buyer.model} buyer.required
+     * @property {string} date.required - Payment date
+     * @property {payment.model} payment.required
+     */
+
+    /**
+     * @typedef Errors
+     * @property {integer} code - Error business code
+     * @property {string} message - Error message
      */
 
     /**
@@ -67,8 +81,18 @@ module.exports = {
      * @route POST /payments
      * @group PAYMENTS - Resource for payments operations.
      * @param {createPayment.model} createPayment.body.required - Create Payment payload.
-     * @returns {object} 201 - Payment object with it properties.
-     * @returns {Error} 400 - Any property is invalid.
+     * @param {token} Authorization.header - Bearer TOKEN for authorization
+     * @returns {responsePayment.model} 201 - Payment object with it properties.
+     * @returns {Errors.model} 400 - Invalid properties.
+     * { code: 001,  message: "Buyer is required." } 
+     * { code: 002,  message: "Name is required and must have at least a name and surname." }
+     * { code: 003,  message: "Email is required and must be a valid one." }
+     * { code: 004,  message: "CPF is required and must have 11 characters." }
+     * @returns {Error} 401 - Unauthorized.
+     * @returns {Errors.model} 409 - Business error.
+     * { code: 005,  message: "CPF is not a valid Brazilian CPF." } 
+     * { code: 006,  message: "When type is 'credit', Card is required." }
+     * { code: 007,  message: "Transaction not allowed." }
      * @returns {Error} 422 - UnprocessableEntity
      * @returns {Error} 500 - Internal server error.
      */
@@ -96,4 +120,44 @@ module.exports = {
             return services.replies.internalServerError(response)(`Error.`)
         }
     },
+
+    /**
+     * Find a Payment
+     * @route GET /payments/{payment}
+     * @group PAYMENTS - Resource for payments operations.
+     * @param {token} Authorization.header - Bearer TOKEN for authorization
+     * @param {objectId} payment.path.required - Payment ID
+     * @returns {responsePayment.model} 200 - Payment object with it properties.
+     * @returns {Errors.model} 400 - Invalid properties.
+     * { code: 008,  message: "Payment is invalid." }
+     * @returns {Error} 401 - Unauthorized.
+     * @returns {Errors.model} 404 - Not found.
+     * { code: 009,  message: "Payment not found." }
+     * @returns {Error} 500 - Internal server error.
+     */
+    findOne: ({ services, schemas, moment }) => async (request, response) => {
+    },
+
+    /**
+     * Find Payments
+     * @route GET /payments
+     * @group PAYMENTS - Resource for payments operations.
+     * @param {token} Authorization.header - Bearer TOKEN for authorization
+     * @param {string} cpf.query - Filter for Buyer CPF
+     * @param {string} name.query - Filter for Buyer Name
+     * @param {string} email.query - Filter for Buyer Email
+     * @param {dateTime} initialDate.query - Filter for initial Date
+     * @param {dateTime} finalDate.query - Filter for final Date
+     * @returns {Array.<responsePayment>} 200 - Array of payments objects with their properties.
+     * @returns {Errors.model} 400 - Invalid properties.
+     * { code: 009,  message: "CPF is invalid." } 
+     * { code: 010,  message: "Name must have at least a name and surname." }
+     * { code: 011,  message: "Email must be a valid one." }
+     * { code: 012,  message: "Initial date is invalid." }
+     * { code: 013,  message: "Final date is invalid." }
+     * @returns {Error} 401 - Unauthorized.
+     * @returns {Error} 500 - Internal server error.
+     */
+    findAll: ({ services, schemas, moment }) => async (request, response) => {
+    }
 }

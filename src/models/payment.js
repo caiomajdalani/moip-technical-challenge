@@ -17,10 +17,8 @@ module.exports = ({ mongoose }) => {
                 type: String,
                 default: 'money',
                 enum: [
-                    'money',
                     'credit',
-                    'debit',
-                    'others'
+                    'boleto'
                 ]
             },
             card: {
