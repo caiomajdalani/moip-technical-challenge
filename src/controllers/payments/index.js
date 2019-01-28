@@ -159,5 +159,6 @@ module.exports = {
      * @returns {Error} 500 - Internal server error.
      */
     findAll: ({ services, schemas, moment }) => async (request, response) => {
+        return services.replies.ok(response)()
     }
 }
