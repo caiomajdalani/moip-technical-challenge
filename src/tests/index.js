@@ -7,7 +7,7 @@ const supertest = require("supertest")
     , request = supertest("http://localhost:5000/")
     , faker = require('faker')
 
-const reporter = function (test, method, url, headers = {}, body = {}, httpCode = 201) {
+const reporter = function (test, method, url, headers = {}, body = {}, httpCode = 201, response) {
     return addContext(test, {
         title: 'Request Parameters',
         value: {
@@ -15,7 +15,8 @@ const reporter = function (test, method, url, headers = {}, body = {}, httpCode 
             Method: method,
             Headers: headers,
             Body: body,
-            HttpCodeExpect: httpCode
+            HttpCodeExpect: httpCode,
+            Response: response
         }
     })
 }
@@ -30,17 +31,17 @@ const http = function (method, url, headers = {}, body = {}, httpCode = 201) {
 const _mapBody = (type) => {
     return {
         buyer: {
-            name: faker.name.findName,
-            email: faker.internet.email,
+            name: faker.name.findName(),
+            email: faker.internet.email(),
             cpf: faker.helpers.replaceSymbolWithNumber("###########")
         },
-        date: faker.date.between(new Date(Date.now(-300).toString()), new Date(Date.now()).toString()),
+        date: faker.date.recent(15),
         payment: {
             amount: faker.random.number({ min: 1000, max: 10000 }),
             type: type,
             card: type === 'credit' ? {
                 brand: 'visa',
-                owner: faker.name.findName,
+                owner: faker.name.findName(),
                 number: faker.helpers.replaceSymbolWithNumber("################"),
                 expiration: '01/2022',
                 bin: faker.helpers.replaceSymbolWithNumber("###")
@@ -50,27 +51,33 @@ const _mapBody = (type) => {
 }
 
 describe('Test Mocha with Functional NodeJS', () => {
-    it(`GET`, function () {
+    it(`GET`, function (done) {
         var test = this
-        reporter(test, 'get', 'payments', {}, {}, 200)
         http('get', 'payments', {}, {}, 200)
-            .then(res => {
+            .end((err, res) => {
                 expect(res.body.message).to.equal(`OK`)
-            })
-            .catch(err => {
-                throw err
+                reporter(test, 'get', 'payments', {}, {}, 200, (res ? res.body : err))
+                done(err)
             })
     }),
-        it(`POST - Boleto`, function () {
+        it(`POST - Boleto`, function (done) {
             var test = this
                 , body = _mapBody('boleto')
-            reporter(test, 'post', 'payments', {}, body, 201)
             http('post', 'payments', {}, body, 201)
+                .end((err, res) => {
+                    // expect(res.body.message).to.equal(`OK`)
+                    reporter(test, 'get', 'payments', {}, body, 201, (res ? res.body : err))
+                    done(err)
+                })
         }),
-        it(`POST - Credit`, function () {
+        it(`POST - Credit`, function (done) {
             var test = this
                 , body = _mapBody('credit')
-            reporter(test, 'post', 'payments', {}, body, 201)
             http('post', 'payments', {}, body, 201)
+                .end((err, res) => {
+                    // expect(res.body.message).to.equal(`OK`)
+                    reporter(test, 'get', 'payments', {}, body, 201, (res ? res.body : err))
+                    done(err)
+                })
         })
 })
