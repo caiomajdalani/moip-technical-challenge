@@ -136,6 +136,7 @@ module.exports = {
      * @returns {Error} 500 - Internal server error.
      */
     findOne: ({ services, schemas, moment }) => async (request, response) => {
+        return services.replies.ok(response)()
     },
 
     /**

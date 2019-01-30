@@ -25,5 +25,7 @@ module.exports = {
                 }),
             })
         })
-    })
+    }),
+    findOne: ({ joi }) => joi.object().unknown(),
+    findAll: ({ joi }) => joi.object().unknown()
 }

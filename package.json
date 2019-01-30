@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "pm2 start pm2.json --env local && pm2 logs",
-    "test": "mocha ./src/tests/index.js --recursive"
+    "test": "mocha ./src/tests/index.js --reporter mochawesome --reporter-options reportFilename=index"
   },
   "author": "Caio Majdalani",
   "dependencies": {
     "bluebird": "3.4.1",
-    "body-parser": "1.17.2",
+    "body-parser": "^1.18.3",
     "compression": "1.7.1",
     "connect-timeout": "1.9.0",
     "cors": "2.8.4",
@@ -20,6 +20,7 @@
     "express-rate-limit": "2.11.0",
     "express-request-id": "1.4.0",
     "express-swagger-generator": "1.1.10",
+    "faker": "^4.1.0",
     "fs": "0.0.1-security",
     "health-check-mongodb": "0.0.3",
     "healthcheck-middleware": "1.0.1",
@@ -28,7 +29,7 @@
     "https": "1.0.0",
     "joi": "13.7.0",
     "jsonwebtoken": "8.3.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.11",
     "md5": "2.2.1",
     "mochawesome": "^3.1.1",
     "moment-timezone": "0.5.21",
@@ -38,17 +39,19 @@
     "mongoose-int32": "^0.3.1",
     "mongoose-long": "^0.2.1",
     "passport": "0.3.2",
-    "passport-jwt": "2.2.1",
+    "passport-jwt": "^4.0.0",
     "path": "0.12.7",
+    "promisify-supertest": "^1.0.0",
     "sha256": "0.2.0",
     "spdy": "3.4.7",
     "supertest": "^3.4.2",
+    "supertest-as-promised": "^4.0.2",
     "util": "0.10.3",
     "uuid": "3.1.0"
   },
   "devDependencies": {
     "chai": "4.1.2",
-    "codecov": "3.0.0",
+    "codecov": "^3.1.0",
     "mocha": "^5.2.0"
   },
   "license": "ISC"
