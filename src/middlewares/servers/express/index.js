@@ -121,15 +121,20 @@ const _upWithoutSSL = ({ ENVIRONMENT, API, PORT }) => async (dependencies) => {
     })
 }
 
-const _setup = ({ ENVIRONMENT, API, PORT, REDIS, AMQP }) => async (dependencies) => {
+const _setup = ({ ENVIRONMENT, API, PORT }) => async (dependencies) => {
+
 
     switch (ENVIRONMENT) {
         case 'DEVELOPMENT':
-            _upWithoutSSL({ ENVIRONMENT, API, PORT, REDIS, AMQP })(dependencies)
+            _upWithoutSSL({ ENVIRONMENT, API, PORT })(dependencies)
+            break;
+
+        case 'LOCAL':
+            _upWithoutSSL({ ENVIRONMENT, API, PORT })(dependencies)
             break;
 
         default:
-            _upWithoutSSL({ ENVIRONMENT, API, PORT, REDIS, AMQP })(dependencies)
+            _upWithoutSSL({ ENVIRONMENT, API, PORT })(dependencies)
             break;
     }
 

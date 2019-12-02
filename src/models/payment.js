@@ -23,24 +23,19 @@ module.exports = ({ mongoose }) => {
             },
             card: {
                 brand: {
-                    type: String,
-                    required: true
+                    type: String
                 },
                 owner: {
-                    type: String,
-                    required: true
+                    type: String
                 },
                 number: {
-                    type: String,
-                    required: true
+                    type: String
                 },
                 expiration: {
-                    type: String,
-                    required: true
+                    type: String
                 },
                 bin: {
-                    type: String,
-                    required: true
+                    type: String
                 }
             },
         },
